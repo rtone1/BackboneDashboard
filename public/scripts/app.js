@@ -87,4 +87,26 @@ var datavideo = {title: "Startwars", content: '<iframe width="500" height="315" 
 var info = new videoCardView(datavideo);
 var datavideo = {title: "Batman v Superman", content: '<iframe width="500" height="315" src="https://www.youtube.com/embed/IwfUnkBfdZ4" frameborder="0" allowfullscreen></iframe>'};
 var info = new videoCardView(datavideo);
+
+////////////////////////////MODEL///////////////////////////
+
+var cardModel = Backbone.Model.extend({
+  initialize: function(){
+    console.log("hey I'm a card! I'm inside a model");
+
+  }
+});
+
+var cardList = Backbone.Collection.extend({
+    model: cardModel,
+    url: "/api/cards",
+    initialize: function() {
+        console.log("Collection is a go!");
+
+    }
+});
+
+var list = new cardList();
+list.fetch();
+list.create({title: "I'm blue", message: "today is not my day"});
 });

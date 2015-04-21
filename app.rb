@@ -10,9 +10,19 @@ ActiveRecord::Base.establish_connection(
 #models
 require './models/card'
 
+#helper
+def card_parameters
+  request_body = JSON.parse(request.body.read.to_s)
+  {title: request_body['title'], message: request_body['message']}
+end
+
 #routes
 get '/' do
   erb :index
+end
+
+get '/variables' do
+  erb :variables
 end
 
 get '/api/cards' do
@@ -29,21 +39,22 @@ end
 
 post '/api/cards' do
   content_type :json
-  card = Card.create(params[:card])
+  # card = Card.create(params[:card])
+  card = Card.create(card_parameters)
   card.to_json
 end
 
 patch '/api/cards/:id' do
   content_type :json
   card = Card.find(params[:id].to_i)
-  card.update(params[:card])
+  card.update(card_parameters)
   card.to_json
 end
 
 put '/api/cards/:id' do
   content_type :json
   card = Card.find(params[:id].to_i)
-  card.update(params[:card])
+  card.update(card_parameters)
   card.to_json
 end
 
